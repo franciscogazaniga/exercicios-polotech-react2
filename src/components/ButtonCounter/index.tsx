@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './styles.css';
 
 interface IButtonProps {
   title: string,
@@ -11,6 +12,6 @@ export function ButtonCounter({title, active, actualNumber}: IButtonProps) {
   actualNumber(counter)
 
   return(
-    <button onClick={() => setCounter(counter + 1)}>{title} {counter}</button>
+    <button className='button' onClick={() => setCounter(counter + 1)}>{title} {counter}</button>
   )
 }

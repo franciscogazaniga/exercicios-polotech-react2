@@ -1,18 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './styles.css';
 
 interface INumberArrayProps{
-  numbers: number[]
+  numbers: number[],
+  actualNumber: number
 }
 
-export function NumberArray({numbers}: INumberArrayProps) {
+export function NumberArray({numbers, actualNumber}: INumberArrayProps) {
 
   function numerosImpares(numbersArray: number[]) {
-    return numbersArray.filter(number => number % 2 != 0)
+    const imparesArray = numbersArray.filter(number => number % 2 != 0)
+
+    const numeros = imparesArray.map((number, key) => {
+      return number + ", "
+    })
+
+    return imparesArray
+    
+    //return imparesArray
+    //return numbersArray.filter(number => number % 2 != 0)
   }
 
   return(
-    <div>
-      Lista de números ímpares: {numerosImpares(numbers)}
+    <div className='container'>
+      {
+        actualNumber % 2 === 0 ?
+        <div>Lista vazia</div>
+        :
+        <div>Lista de números ímpares: {numerosImpares(numbers)}</div>
+      }
+
     </div>
   )
 }
