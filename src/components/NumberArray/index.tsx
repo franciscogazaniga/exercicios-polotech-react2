@@ -12,10 +12,10 @@ export function NumberArray({numbers, actualNumber}: INumberArrayProps) {
     const imparesArray = numbersArray.filter(number => number % 2 != 0)
 
     const numeros = imparesArray.map((number, key) => {
-      return number + ", "
-    })
+      return number
+    }).join(", ")
 
-    return imparesArray
+    return numeros
     
     //return imparesArray
     //return numbersArray.filter(number => number % 2 != 0)
@@ -25,7 +25,7 @@ export function NumberArray({numbers, actualNumber}: INumberArrayProps) {
     <div className='container'>
       {
         actualNumber % 2 === 0 ?
-        <div>Lista vazia</div>
+        <div>O valor atual do contator é par, não exibiremos a lista.</div>
         :
         <div>Lista de números ímpares: {numerosImpares(numbers)}</div>
       }

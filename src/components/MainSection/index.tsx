@@ -14,6 +14,7 @@ export function MainSection() {
 
   return(
     <div className='container'>
+      <span className='paragraph'>Uma lista de números foi fornecida, caso sua contagem seja ímpar, a lista é exibida apenas com os elementos ímpares.</span>
       <NumberArray numbers={arrayOfNumbers} actualNumber={actualNumberOfCounter}/>
       <ButtonCounter title='Clique aqui para contar: ' actualNumber={callbackActualNumberCount}/>
     </div>

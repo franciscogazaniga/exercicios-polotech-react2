@@ -12,6 +12,6 @@ export function ButtonCounter({title, active, actualNumber}: IButtonProps) {
   actualNumber(counter)
 
   return(
-    <button className='button' onClick={() => setCounter(counter + 1)}>{title} {counter}</button>
+    <button className='button' onClick={() => setCounter(counter + 1)}>{title} <span className={counter % 2 === 0 ? 'blue' : 'green'}>{counter}</span></button>
   )
 }
