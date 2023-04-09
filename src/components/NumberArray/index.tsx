@@ -9,16 +9,9 @@ interface INumberArrayProps{
 export function NumberArray({numbers, actualNumber}: INumberArrayProps) {
 
   function numerosImpares(numbersArray: number[]) {
-    const imparesArray = numbersArray.filter(number => number % 2 != 0)
-
-    const numeros = imparesArray.map((number, key) => {
-      return number
-    }).join(", ")
-
-    return numeros
+    const imparesArray = numbersArray.filter(number => number % 2 != 0).join(", ")
     
-    //return imparesArray
-    //return numbersArray.filter(number => number % 2 != 0)
+    return imparesArray
   }
 
   return(
