@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { CheckBox } from "../CheckBox/CheckBox";
 import {
   ListContainer,
   TodoListContainer,
@@ -10,13 +12,22 @@ const Listview = () => {
     { id: "1", label: "Primeira task", isComplete: false },
   ];
 
+  const[taskCompleted, setTaskCompleted] = useState(false)
+
+  function handleTask() {
+    setTaskCompleted(!taskCompleted)
+  }
+
   return (
     <ListContainer>
       <TodoListContainer>
         <TodoListItem>
-          {tasks.map((eachTask) => {
-            return eachTask.label;
-          })}
+          {tasks.map((eachTask, key) => (
+              <>
+                <CheckBox id={key} completed={taskCompleted} onClick={() => handleTask()}/>
+                {eachTask.label}
+              </>
+          ))}
         </TodoListItem>
       </TodoListContainer>
     </ListContainer>
