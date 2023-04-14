@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { CheckBox } from "../CheckBox/CheckBox";
-import { Spacer } from "../Spacer/Spacer";
+import { CheckBox } from "../../components/CheckBox/CheckBox";
+import { Spacer } from "../../components/Spacer/Spacer";
 import {
   ListContainer,
   TodoListContainer,
@@ -26,7 +26,8 @@ const Listview = () => {
           {tasks.map((eachTask, key) => (
               <>
                 <CheckBox id={key} completed={taskCompleted} onClick={() => handleTask()}/>
-                <Spacer heightY={50} widthX={200} content={eachTask.label} />
+                <Spacer widthX={10} />
+                {eachTask.label} 
               </>
           ))}
         </TodoListItem>

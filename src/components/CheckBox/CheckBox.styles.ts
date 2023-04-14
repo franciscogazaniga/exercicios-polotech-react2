@@ -12,4 +12,5 @@ export const CheckBoxCircle = styled.button<{completed: boolean}>`
     cursor: pointer;
     background-color: ${(props) =>
     props.completed ? globalColorsObject.primaryColor : 'gray'};
+    transition: all 100ms;
 `

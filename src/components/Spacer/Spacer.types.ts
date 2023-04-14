@@ -1,5 +1,4 @@
 export interface ISpacerProps {
-  content: string;
-  heightY: number;
-  widthX: number;
+  heightY?: number | undefined;
+  widthX?: number | undefined;
 }

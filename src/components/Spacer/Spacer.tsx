@@ -1,10 +1,8 @@
 import { SpacerContainer } from "./Spacer.styles";
 import { ISpacerProps } from "./Spacer.types";
 
-export function Spacer({content, heightY, widthX}: ISpacerProps) {
+export function Spacer({heightY, widthX}: ISpacerProps) {
   return(
-    <SpacerContainer heightY={heightY} widthX={widthX}>
-      {content}
-    </SpacerContainer>
+    <SpacerContainer heightY={heightY} widthX={widthX}/>
   )
 }
