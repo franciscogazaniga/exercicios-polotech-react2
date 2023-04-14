@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { nanoid } from "nanoid";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { CheckBox } from "../../components/CheckBox/CheckBox";
+import { Input } from "../../components/Input/Input";
 import { Spacer } from "../../components/Spacer/Spacer";
 import {
   ListContainer,
@@ -9,9 +11,24 @@ import {
 import { ITaskState } from "./Listview.types";
 
 const Listview = () => {
-  const tasks: ITaskState[] = [
-    { id: "1", label: "Primeira task", isComplete: false },
-  ];
+  const[tasks, setTasks] = useState<ITaskState[]>([])
+  const[newTaskLabel, setNewTaskLabel] = useState("")
+  
+  const addTask = (label: string) => {
+    const id = nanoid()
+    setTasks((tasks) => [...tasks, {id, label, isComplete:false}])
+  }
+
+  const handleTaskLabelChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewTaskLabel(event.target.value)
+  }
+
+  const handleTaskKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if(event.key === "Enter" && newTaskLabel !== "") {
+      addTask(newTaskLabel)
+      setNewTaskLabel("")
+    }
+  }
 
   const[taskCompleted, setTaskCompleted] = useState(false)
 
@@ -21,6 +38,14 @@ const Listview = () => {
 
   return (
     <ListContainer>
+      <Spacer heightY={4} />
+      <Input 
+        placeholder="Digite uma tarefa"
+        value={newTaskLabel}
+        onChange={handleTaskLabelChange}
+        onKeyPress={handleTaskKeyPress}
+      />
+
       <TodoListContainer>
         <TodoListItem>
           {tasks.map((eachTask, key) => (
