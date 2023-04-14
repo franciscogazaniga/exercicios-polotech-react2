@@ -3,7 +3,9 @@ import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { CheckBox } from "../../components/CheckBox/CheckBox";
 import { Input } from "../../components/Input/Input";
 import { Spacer } from "../../components/Spacer/Spacer";
+import { Task } from "../../components/Task/Task";
 import {
+  ItemContainer,
   ListContainer,
   TodoListContainer,
   TodoListItem,
@@ -30,10 +32,16 @@ const Listview = () => {
     }
   }
 
-  const[taskCompleted, setTaskCompleted] = useState(false)
+  function handleTask(taskToCompleteId: string) {
+    const taskIndex = tasks.findIndex((task) => {
+      return task.id === taskToCompleteId;
+    });
 
-  function handleTask() {
-    setTaskCompleted(!taskCompleted)
+    const tempTasks = [...tasks];
+      
+    tempTasks[taskIndex].isComplete = !tempTasks[taskIndex].isComplete;
+
+    setTasks(tempTasks);
   }
 
   return (
@@ -49,11 +57,11 @@ const Listview = () => {
       <TodoListContainer>
         <TodoListItem>
           {tasks.map((eachTask, key) => (
-              <>
-                <CheckBox id={key} completed={taskCompleted} onClick={() => handleTask()}/>
-                <Spacer widthX={10} />
-                {eachTask.label} 
-              </>
+              <ItemContainer>
+                <CheckBox id={key} completed={eachTask.isComplete} onClick={() => handleTask(eachTask.id)}/>
+                <Spacer widthX={10}/>
+                <Task text={eachTask.label} completed={eachTask.isComplete}/>
+              </ItemContainer>
           ))}
         </TodoListItem>
       </TodoListContainer>

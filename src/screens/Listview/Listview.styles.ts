@@ -13,11 +13,19 @@ export const TodoListContainer = styled.div`
     padding: 3rem 1rem;
     display: flex;
     flex-direction: column;
+    margin-top: 2rem;
 `
 
 export const TodoListItem = styled.label`
     display: flex;
+    flex-direction: column;
     padding: 0.5rem 0;
     align-items: center;
     font-size: 1.2rem;
+`
+
+export const ItemContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
 `
