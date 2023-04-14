@@ -16,11 +16,11 @@ export const TodoListContainer = styled.div`
     margin-top: 2rem;
 `
 
-export const TodoListItem = styled.label`
+export const TodoListItem = styled.div`
     display: flex;
     flex-direction: column;
     padding: 0.5rem 0;
-    align-items: center;
+    align-items: left;
     font-size: 1.2rem;
 `
 

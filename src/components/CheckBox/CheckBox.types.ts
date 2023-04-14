@@ -1,5 +1,5 @@
 export interface ICheckBoxTypes {
-  id: number;
+  //id: number;
   completed?: boolean;
   onClick?: () => void;
 }

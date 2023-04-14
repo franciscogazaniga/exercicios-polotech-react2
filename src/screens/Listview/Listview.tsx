@@ -56,9 +56,9 @@ const Listview = () => {
 
       <TodoListContainer>
         <TodoListItem>
-          {tasks.map((eachTask, key) => (
+          {tasks.map((eachTask) => (
               <ItemContainer>
-                <CheckBox id={key} completed={eachTask.isComplete} onClick={() => handleTask(eachTask.id)}/>
+                <CheckBox completed={eachTask.isComplete} onClick={() => handleTask(eachTask.id)}/>
                 <Spacer widthX={10}/>
                 <Task text={eachTask.label} completed={eachTask.isComplete}/>
               </ItemContainer>
