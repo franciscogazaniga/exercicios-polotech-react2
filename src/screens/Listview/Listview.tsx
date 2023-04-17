@@ -1,4 +1,3 @@
-import { TrashSimple } from "@phosphor-icons/react";
 import { nanoid } from "nanoid";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { CheckBox } from "../../components/CheckBox/CheckBox";
@@ -27,10 +26,17 @@ const Listview = () => {
   const addTask = (label: string) => {
     const id = nanoid()
     const currentTask: ITaskState = {id, label, isComplete:false}
-    const updateTasks = [...tasks, currentTask]
 
-    setTasks(updateTasks)
-    saveTasksOnLocalStorage(updateTasks)
+    const tasksFiltred = tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(currentTask.label.toLowerCase()))
+
+    if(tasksFiltred.length > 0) {
+      console.log("Essa task já existe")
+    } else {
+      const updateTasks = [...tasks, currentTask]
+
+      setTasks(updateTasks)
+      saveTasksOnLocalStorage(updateTasks)
+    }
   }
 
   const handleTaskRemove = (taskToRemove: string) => {
@@ -66,6 +72,7 @@ const Listview = () => {
     tempTasks[taskIndex].isComplete = !tempTasks[taskIndex].isComplete;
 
     setTasks(tempTasks);
+    saveTasksOnLocalStorage(tempTasks)
   }
 
   useEffect(() => {
