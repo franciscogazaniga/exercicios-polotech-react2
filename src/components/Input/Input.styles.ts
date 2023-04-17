@@ -10,4 +10,5 @@ export const InputContainer = styled.input`
   color: white;
   font-size: 1rem;
   font-weight: 400;
+  width: 100%;
 `

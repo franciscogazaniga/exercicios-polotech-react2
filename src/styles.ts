@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
    }
 
    body {
-      background: #222;
+      background: #303030;
       color: #fff; 
    }
 
@@ -19,10 +19,10 @@ export const GlobalStyle = createGlobalStyle`
 export const AppLayoutContainer = styled.div`
    display: flex;
    flex-direction: column;
-   justify-content: center;
    align-items: center;
    padding: 3 rem;
    min-height: 100vh;
+   margin-top: 100px;
 `;
 
 export const globalColorsObject = {

@@ -5,7 +5,7 @@ import { IRemoveTaskIcon } from "./RemoveTaskIcon.types";
 export function RemoveTaskIcon({onClick}: IRemoveTaskIcon) {
   return(
     <Span onClick={onClick}>
-      <TrashSimple color="#FFC93f" size={25}/>
+      <TrashSimple color="#ffa1a1" size={25}/>
     </Span>
   )
 }

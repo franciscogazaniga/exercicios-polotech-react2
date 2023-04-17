@@ -1,3 +1,4 @@
+import { NotePencil, PlusCircle } from "@phosphor-icons/react";
 import { nanoid } from "nanoid";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { CheckBox } from "../../components/CheckBox/CheckBox";
@@ -6,8 +7,12 @@ import { RemoveTaskIcon } from "../../components/RemoveTaskIcon/RemoveTaskIcon";
 import { Spacer } from "../../components/Spacer/Spacer";
 import { Task } from "../../components/Task/Task";
 import {
+  AddButton,
+  CheckBoxAndTaskContainer,
+  InputContainer,
   ItemContainer,
   ListContainer,
+  NoTaskContainer,
   TodoListContainer,
   TodoListItem,
 } from "./Listview.styles";
@@ -23,11 +28,11 @@ const Listview = () => {
     localStorage.setItem("tasks", tasksString)
   }
 
-  const addTask = (label: string) => {
+  const handleAddTask = (label: string) => {
     const id = nanoid()
     const currentTask: ITaskState = {id, label, isComplete:false}
 
-    const tasksFiltred = tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(currentTask.label.toLowerCase()))
+    const tasksFiltred = tasks.filter((eachTask) => eachTask.label.toLowerCase() === currentTask.label.toLowerCase())
 
     if(tasksFiltred.length > 0) {
       console.log("Essa task já existe")
@@ -36,6 +41,7 @@ const Listview = () => {
 
       setTasks(updateTasks)
       saveTasksOnLocalStorage(updateTasks)
+      setNewTaskLabel("")
     }
   }
 
@@ -57,8 +63,7 @@ const Listview = () => {
 
   const handleTaskKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
     if(event.key === "Enter" && newTaskLabel !== "") {
-      addTask(newTaskLabel)
-      setNewTaskLabel("")
+      handleAddTask(newTaskLabel)
     }
   }
 
@@ -91,36 +96,47 @@ const Listview = () => {
   return (
     <ListContainer>
       <Spacer heightY={4} />
-      <Input 
-        placeholder="Inserir tarefa"
-        value={newTaskLabel}
-        onChange={handleTaskLabelChange}
-        onKeyPress={handleTaskKeyPress}
-      />
-
-      <Input 
-        placeholder="Buscar tarefa"
-        value={searchTask}
-        onChange={handleTaskSearchChange}
-      />
+      <InputContainer>
+        <Input 
+          placeholder="Inserir tarefa"
+          value={newTaskLabel}
+          onChange={handleTaskLabelChange}
+          onKeyPress={handleTaskKeyPress}
+        />
+        <AddButton onClick={() => handleAddTask(newTaskLabel)}>
+          <PlusCircle color="white" size={32} />
+        </AddButton>
+      </InputContainer>
 
       <TodoListContainer>
+        <Input 
+          placeholder="Buscar tarefa"
+          value={searchTask}
+          onChange={handleTaskSearchChange}
+        />
+
         {tasks.length > 0 ? 
           <TodoListItem>
-            {tasks.filter((eachTask) => eachTask.label.includes(searchTask))
-            .map((eachTask, key) => (
-                <ItemContainer key={key}>
-                  <CheckBox completed={eachTask.isComplete} onClick={() => handleTaskComplete(eachTask.id)}/>
-                  <Spacer widthX={10}/>
-                  <Task text={eachTask.label} completed={eachTask.isComplete}/>
-                  <RemoveTaskIcon onClick={() => handleTaskRemove(eachTask.id)}/>
-                </ItemContainer>
-            ))}
+            {
+              tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase()))
+              .map((eachTask, key) => (
+                  <ItemContainer key={key}>
+                    <CheckBoxAndTaskContainer>
+                      <CheckBox completed={eachTask.isComplete} onClick={() => handleTaskComplete(eachTask.id)}/>
+                      <Spacer widthX={10}/>
+                      <Task text={eachTask.label} completed={eachTask.isComplete}/>
+                    </CheckBoxAndTaskContainer>
+                    <RemoveTaskIcon onClick={() => handleTaskRemove(eachTask.id)}/>
+                  </ItemContainer>
+              ))
+            }
           </TodoListItem>
           :
-          <div>
-            Você não possui nenhuma tarefa para realizar. Crie uma tarefa!
-          </div>
+          <NoTaskContainer>
+            <NotePencil size={32}/>
+            <span>Você não possui nenhuma tarefa para realizar.</span>
+            <span>Crie uma!</span>
+          </NoTaskContainer>
         }
 
       </TodoListContainer>
