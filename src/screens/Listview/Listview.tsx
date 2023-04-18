@@ -1,11 +1,11 @@
 import { NotePencil, PlusCircle } from "@phosphor-icons/react";
 import { nanoid } from "nanoid";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
-import { CheckBox } from "../../components/CheckBox/CheckBox";
-import { Input } from "../../components/Input/Input";
-import { RemoveTaskIcon } from "../../components/RemoveTaskIcon/RemoveTaskIcon";
-import { Spacer } from "../../components/Spacer/Spacer";
-import { Task } from "../../components/Task/Task";
+import { CheckBox } from "components/CheckBox/CheckBox";
+import { Input } from "components/Input/Input";
+import { RemoveTaskIcon } from "components/RemoveTaskIcon/RemoveTaskIcon";
+import { Spacer } from "components/Spacer/Spacer";
+import { Task } from "components/Task/Task";
 import {
   AddButton,
   CheckBoxAndTaskContainer,

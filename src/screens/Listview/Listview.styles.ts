@@ -27,6 +27,7 @@ export const TodoListItem = styled.div`
 export const ItemContainer = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
 `
@@ -42,6 +43,7 @@ export const InputContainer = styled.div`
 export const CheckBoxAndTaskContainer = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
 `
 
 export const NoTaskContainer = styled.div`
