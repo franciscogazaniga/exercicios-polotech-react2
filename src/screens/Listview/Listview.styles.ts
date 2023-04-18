@@ -51,6 +51,7 @@ export const NoTaskContainer = styled.div`
     align-items: center;
     flex-direction: column;
     padding: 2rem;
+    text-align: center;
 `
 export const AddButton = styled.button`
     width: 4rem;

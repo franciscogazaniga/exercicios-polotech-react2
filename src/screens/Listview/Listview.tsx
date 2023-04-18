@@ -1,4 +1,4 @@
-import { NotePencil, PlusCircle } from "@phosphor-icons/react";
+import { Binoculars, NotePencil, PlusCircle } from "@phosphor-icons/react";
 import { nanoid } from "nanoid";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { CheckBox } from "components/CheckBox/CheckBox";
@@ -22,7 +22,7 @@ const Listview = () => {
   const[tasks, setTasks] = useState<ITaskState[]>([])
   const[newTaskLabel, setNewTaskLabel] = useState("")
   const[searchTask, setSearchTask] = useState("")
-  
+
   function saveTasksOnLocalStorage(updateTasks: ITaskState[]) {
     const tasksString = JSON.stringify(updateTasks)
     localStorage.setItem("tasks", tasksString)
@@ -80,6 +80,9 @@ const Listview = () => {
     saveTasksOnLocalStorage(tempTasks)
   }
 
+  const tasksIsEmpty = tasks.length === 0
+  const searchTaskIsEmpty = tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase())).length === 0
+
   useEffect(() => {
     const fetchTasks = () => {
       const tasksString = localStorage.getItem("tasks")
@@ -96,50 +99,55 @@ const Listview = () => {
   return (
     <ListContainer>
       <Spacer heightY={4} />
-      <InputContainer>
-        <Input 
-          placeholder="Inserir tarefa"
-          value={newTaskLabel}
-          onChange={handleTaskLabelChange}
-          onKeyPress={handleTaskKeyPress}
-        />
-        <AddButton onClick={() => handleAddTask(newTaskLabel)}>
-          <PlusCircle color="white" size={32} />
-        </AddButton>
-      </InputContainer>
+        <InputContainer>
+          <Input 
+            placeholder="Inserir tarefa"
+            value={newTaskLabel}
+            onChange={handleTaskLabelChange}
+            onKeyPress={handleTaskKeyPress}
+          />
+          <AddButton onClick={() => handleAddTask(newTaskLabel)}>
+            <PlusCircle color="white" size={32} />
+          </AddButton>
+        </InputContainer>
+  
+        <TodoListContainer>
+          <Input 
+            placeholder="Buscar tarefa"
+            value={searchTask}
+            onChange={handleTaskSearchChange}
+          />
+  
+          {tasksIsEmpty ? 
+            <NoTaskContainer>
+              <NotePencil size={32}/>
+              <span>Você não possui nenhuma tarefa para realizar.</span>
+              <span>Crie uma!</span>
+            </NoTaskContainer>
+            :
+            <TodoListItem>
+              { searchTaskIsEmpty ? 
+                <NoTaskContainer>
+                  <Binoculars size={32}/>
+                  <span>Nenhuma tarefa encontrada com os termos buscados.</span>
+                </NoTaskContainer>
+                :
+                tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase()))
+                .map((eachTask, key) => (
+                    <ItemContainer key={key}>
+                      <CheckBoxAndTaskContainer>
+                        <CheckBox completed={eachTask.isComplete} onClick={() => handleTaskComplete(eachTask.id)}/>
+                        <Spacer widthX={10}/>
+                        <Task text={eachTask.label} completed={eachTask.isComplete}/>
+                      </CheckBoxAndTaskContainer>
+                      <RemoveTaskIcon onClick={() => handleTaskRemove(eachTask.id)}/>
+                    </ItemContainer>
+                ))
+              }
+            </TodoListItem>
+          }
+        </TodoListContainer>
 
-      <TodoListContainer>
-        <Input 
-          placeholder="Buscar tarefa"
-          value={searchTask}
-          onChange={handleTaskSearchChange}
-        />
-
-        {tasks.length > 0 ? 
-          <TodoListItem>
-            {
-              tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase()))
-              .map((eachTask, key) => (
-                  <ItemContainer key={key}>
-                    <CheckBoxAndTaskContainer>
-                      <CheckBox completed={eachTask.isComplete} onClick={() => handleTaskComplete(eachTask.id)}/>
-                      <Spacer widthX={10}/>
-                      <Task text={eachTask.label} completed={eachTask.isComplete}/>
-                    </CheckBoxAndTaskContainer>
-                    <RemoveTaskIcon onClick={() => handleTaskRemove(eachTask.id)}/>
-                  </ItemContainer>
-              ))
-            }
-          </TodoListItem>
-          :
-          <NoTaskContainer>
-            <NotePencil size={32}/>
-            <span>Você não possui nenhuma tarefa para realizar.</span>
-            <span>Crie uma!</span>
-          </NoTaskContainer>
-        }
-
-      </TodoListContainer>
     </ListContainer>
   );
 };
