@@ -16,6 +16,7 @@ export function TasksBox({tasks, setTasks}: ITaskBoxProps) {
   const searchTaskIsEmpty = tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase())).length === 0
   const tasksAmount = tasks.length
   const tasksCompletedAmount = tasks.filter((eachTask) => eachTask.isComplete).length
+  const taskIncompletedAmount = tasks.filter(eachTask => eachTask.isComplete === false).length
 
   function saveTasksOnLocalStorage(updateTasks: ITaskState[]) {
     const tasksString = JSON.stringify(updateTasks)
@@ -47,15 +48,20 @@ export function TasksBox({tasks, setTasks}: ITaskBoxProps) {
     setSearchTask(event.target.value)
   }
 
-  useMemo(() => {
-    console.log(tasksAmount)
-  }, [tasksAmount, tasksCompletedAmount])
+  const TasksInfo = useMemo(() => {
+    return(
+      <>
+        <TaskInfo>Tarefas: {tasksAmount}</TaskInfo>
+        <TaskInfo>Tarefas Concluídas: {tasksCompletedAmount}</TaskInfo>
+        <TaskInfo>Tarefas Pendentes: {taskIncompletedAmount}</TaskInfo>
+      </>
+    )
+  }, [tasksAmount, tasksCompletedAmount, taskIncompletedAmount])
 
   return(
     <>
       <TasksInfoContainer>
-        <TaskInfo>Tarefas: {tasksAmount}</TaskInfo>
-        <TaskInfo>Tarefas Concluídas: {tasksCompletedAmount}</TaskInfo>
+        {TasksInfo}
       </TasksInfoContainer>
 
       <TodoListContainer>

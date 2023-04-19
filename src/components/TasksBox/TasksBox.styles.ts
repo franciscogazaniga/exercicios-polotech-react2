@@ -9,9 +9,10 @@ export const TasksInfoContainer = styled.div`
 
 export const TaskInfo = styled.span`
     background-color: grey;
-    padding: .5rem 2rem;
+    padding: .5rem 1rem;
     border: none;
     border-radius: 8px;
+    font-size: .8rem;
 `
 
 export const TodoListContainer = styled.div`
