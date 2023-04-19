@@ -12,3 +12,9 @@ export const LogoImage = styled.img`
   height: 50px;
   margin: 1rem;
 `
+
+export const ButtonChangeTheme = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+`

@@ -1,12 +1,26 @@
 import styled from "styled-components"
 
+
+export const TasksInfoContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
+export const TaskInfo = styled.span`
+    background-color: grey;
+    padding: .5rem 2rem;
+    border: none;
+    border-radius: 8px;
+`
+
 export const TodoListContainer = styled.div`
     background: grey;
     border-radius: 1rem;
     padding: 1rem 1rem;
     display: flex;
     flex-direction: column;
-    margin-top: 2rem;
+    margin-top: 1rem;
 `
 
 export const TodoListItem = styled.div`

@@ -4,9 +4,9 @@ import { Input } from "components/Input/Input";
 import { RemoveTaskIcon } from "components/RemoveTaskIcon/RemoveTaskIcon";
 import { Spacer } from "components/Spacer/Spacer";
 import { Task } from "components/Task/Task";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import { ITaskState } from "screens/Listview/Listview.types";
-import { CheckBoxAndTaskContainer, ItemContainer, NoTaskContainer, TodoListContainer, TodoListItem } from "./TasksBox.styles";
+import { CheckBoxAndTaskContainer, ItemContainer, NoTaskContainer, TaskInfo, TasksInfoContainer, TodoListContainer, TodoListItem } from "./TasksBox.styles";
 import { ITaskBoxProps } from "./TasksBox.types";
 
 export function TasksBox({tasks, setTasks}: ITaskBoxProps) {
@@ -14,6 +14,8 @@ export function TasksBox({tasks, setTasks}: ITaskBoxProps) {
 
   const tasksIsEmpty = tasks.length === 0
   const searchTaskIsEmpty = tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase())).length === 0
+  const tasksAmount = tasks.length
+  const tasksCompletedAmount = tasks.filter((eachTask) => eachTask.isComplete).length
 
   function saveTasksOnLocalStorage(updateTasks: ITaskState[]) {
     const tasksString = JSON.stringify(updateTasks)
@@ -45,42 +47,53 @@ export function TasksBox({tasks, setTasks}: ITaskBoxProps) {
     setSearchTask(event.target.value)
   }
 
-  return(
-    <TodoListContainer>
-      <Input 
-        placeholder="Buscar tarefa"
-        value={searchTask}
-        onChange={handleTaskSearchChange}
-      />
+  useMemo(() => {
+    console.log(tasksAmount)
+  }, [tasksAmount, tasksCompletedAmount])
 
-      {tasksIsEmpty ? 
-        <NoTaskContainer>
-          <NotePencil size={32}/>
-          <span>Você não possui nenhuma tarefa para realizar.</span>
-          <span>Crie uma!</span>
-        </NoTaskContainer>
-        :
-        <TodoListItem>
-          { searchTaskIsEmpty ? 
-            <NoTaskContainer>
-              <Binoculars size={32}/>
-              <span>Nenhuma tarefa encontrada com os termos buscados.</span>
-            </NoTaskContainer>
-            :
-            tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase()))
-            .map((eachTask, key) => (
-                <ItemContainer key={key}>
-                  <CheckBoxAndTaskContainer>
-                    <CheckBox completed={eachTask.isComplete} onClick={() => handleTaskComplete(eachTask.id)}/>
-                    <Spacer widthX={10}/>
-                    <Task text={eachTask.label} completed={eachTask.isComplete}/>
-                  </CheckBoxAndTaskContainer>
-                  <RemoveTaskIcon onClick={() => handleTaskRemove(eachTask.id)}/>
-                </ItemContainer>
-            ))
-          }
-        </TodoListItem>
-      }
-    </TodoListContainer>
+  return(
+    <>
+      <TasksInfoContainer>
+        <TaskInfo>Tarefas: {tasksAmount}</TaskInfo>
+        <TaskInfo>Tarefas Concluídas: {tasksCompletedAmount}</TaskInfo>
+      </TasksInfoContainer>
+
+      <TodoListContainer>
+        <Input 
+          placeholder="Buscar tarefa"
+          value={searchTask}
+          onChange={handleTaskSearchChange}
+        />
+
+        {tasksIsEmpty ? 
+          <NoTaskContainer>
+            <NotePencil size={32}/>
+            <span>Você não possui nenhuma tarefa para realizar.</span>
+            <span>Crie uma!</span>
+          </NoTaskContainer>
+          :
+          <TodoListItem>
+            { searchTaskIsEmpty ? 
+              <NoTaskContainer>
+                <Binoculars size={32}/>
+                <span>Nenhuma tarefa encontrada com os termos buscados.</span>
+              </NoTaskContainer>
+              :
+              tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase()))
+              .map((eachTask, key) => (
+                  <ItemContainer key={key}>
+                    <CheckBoxAndTaskContainer>
+                      <CheckBox completed={eachTask.isComplete} onClick={() => handleTaskComplete(eachTask.id)}/>
+                      <Spacer widthX={10}/>
+                      <Task text={eachTask.label} completed={eachTask.isComplete}/>
+                    </CheckBoxAndTaskContainer>
+                    <RemoveTaskIcon onClick={() => handleTaskRemove(eachTask.id)}/>
+                  </ItemContainer>
+              ))
+            }
+          </TodoListItem>
+        }
+      </TodoListContainer>
+    </>
   )
 }
