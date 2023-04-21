@@ -3,6 +3,7 @@ import { Header } from "./components/Header/Header";
 import Listview from "./screens/Listview/Listview";
 import { AppLayoutContainer, GlobalStyle, LoadingContainer } from "./styles";
 import ReactLoading from 'react-loading';
+import { TaskProvider } from "context/task.context";
 
 const App = () => {
   const[isLoading, setIsLoading] = useState(false)
@@ -17,20 +18,22 @@ const App = () => {
 
   return (
     <>
-      <GlobalStyle />
-      {
-        isLoading ?
-        <LoadingContainer>
-          <ReactLoading type="bubbles" color="#65ACEA"/>
-        </LoadingContainer>
-        :
-        <>
-          <Header />
-          <AppLayoutContainer>
-            <Listview />
-          </AppLayoutContainer>
-        </>
-      }
+      <TaskProvider>
+        <GlobalStyle />
+        {
+          isLoading ?
+          <LoadingContainer>
+            <ReactLoading type="bubbles" color="#65ACEA"/>
+          </LoadingContainer>
+          :
+          <>
+            <Header />
+            <AppLayoutContainer>
+              <Listview />
+            </AppLayoutContainer>
+          </>
+        }
+      </TaskProvider>
     </>
   );
 };

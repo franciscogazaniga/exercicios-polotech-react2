@@ -4,51 +4,20 @@ import { Input } from "components/Input/Input";
 import { RemoveTaskIcon } from "components/RemoveTaskIcon/RemoveTaskIcon";
 import { Spacer } from "components/Spacer/Spacer";
 import { Task } from "components/Task/Task";
-import { ChangeEvent, useMemo, useState } from "react";
-import { ITaskState } from "screens/Listview/Listview.types";
+import { useTask } from "context/task.context";
+import { useMemo } from "react";
 import { CheckBoxAndTaskContainer, ItemContainer, NoTaskContainer, TaskInfo, TasksInfoContainer, TodoListContainer, TodoListItem } from "./TasksBox.styles";
-import { ITaskBoxProps } from "./TasksBox.types";
-
-export function TasksBox({tasks, setTasks}: ITaskBoxProps) {
-  const[searchTask, setSearchTask] = useState("")
+export function TasksBox() {
+  const{tasks,searchTask, setSearchTask, taskFilter, handleTaskComplete, handleTaskRemove} = useTask()
 
   const tasksIsEmpty = tasks.length === 0
   const searchTaskIsEmpty = tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase())).length === 0
-  const tasksAmount = tasks.length
-  const tasksCompletedAmount = tasks.filter((eachTask) => eachTask.isComplete).length
-  const taskIncompletedAmount = tasks.filter(eachTask => eachTask.isComplete === false).length
-
-  function saveTasksOnLocalStorage(updateTasks: ITaskState[]) {
-    const tasksString = JSON.stringify(updateTasks)
-    localStorage.setItem("tasks", tasksString)
-  }
-
-  const handleTaskRemove = (taskToRemove: string) => {
-    const tempTasks = [...tasks];
-    const newTasks = tempTasks.filter((eachTask) => !eachTask.id.includes(taskToRemove))
-
-    setTasks(newTasks);
-    saveTasksOnLocalStorage(newTasks)
-  }
-
-  function handleTaskComplete(taskToCompleteId: string) {
-    const taskIndex = tasks.findIndex((task) => {
-      return task.id === taskToCompleteId;
-    });
-
-    const tempTasks = [...tasks];
-      
-    tempTasks[taskIndex].isComplete = !tempTasks[taskIndex].isComplete;
-
-    setTasks(tempTasks);
-    saveTasksOnLocalStorage(tempTasks)
-  }
-
-  const handleTaskSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTask(event.target.value)
-  }
 
   const TasksInfo = useMemo(() => {
+    const tasksAmount = tasks.length
+    const tasksCompletedAmount = tasks.filter((eachTask) => eachTask.isComplete).length
+    const taskIncompletedAmount = tasks.filter(eachTask => eachTask.isComplete === false).length
+
     return(
       <>
         <TaskInfo>Tarefas: {tasksAmount}</TaskInfo>
@@ -56,7 +25,7 @@ export function TasksBox({tasks, setTasks}: ITaskBoxProps) {
         <TaskInfo>Tarefas Pendentes: {taskIncompletedAmount}</TaskInfo>
       </>
     )
-  }, [tasksAmount, tasksCompletedAmount, taskIncompletedAmount])
+  }, [tasks])
 
   return(
     <>
@@ -68,7 +37,7 @@ export function TasksBox({tasks, setTasks}: ITaskBoxProps) {
         <Input 
           placeholder="Buscar tarefa"
           value={searchTask}
-          onChange={handleTaskSearchChange}
+          onChange={(event) => setSearchTask(event.target.value)}
         />
 
         {tasksIsEmpty ? 
@@ -85,7 +54,7 @@ export function TasksBox({tasks, setTasks}: ITaskBoxProps) {
                 <span>Nenhuma tarefa encontrada com os termos buscados.</span>
               </NoTaskContainer>
               :
-              tasks.filter((eachTask) => eachTask.label.toLowerCase().includes(searchTask.toLowerCase()))
+              taskFilter
               .map((eachTask, key) => (
                   <ItemContainer key={key}>
                     <CheckBoxAndTaskContainer>
