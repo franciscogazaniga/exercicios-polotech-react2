@@ -1,12 +1,9 @@
 import { Binoculars, NotePencil } from "@phosphor-icons/react";
-import { CheckBox } from "components/CheckBox/CheckBox";
 import { Input } from "components/Input/Input";
-import { RemoveTaskIcon } from "components/RemoveTaskIcon/RemoveTaskIcon";
-import { Spacer } from "components/Spacer/Spacer";
-import { Task } from "components/Task/Task";
+import { TodoItem } from "components/ToDoItem/ToDoItem";
 import { useTask } from "context/task.context";
 import { useMemo } from "react";
-import { CheckBoxAndTaskContainer, ItemContainer, NoTaskContainer, TaskInfo, TasksInfoContainer, TodoListContainer, TodoListItem } from "./TasksBox.styles";
+import { NoTaskContainer, TaskInfo, TasksInfoContainer, TodoListContainer, TodoListItem } from "./TasksBox.styles";
 export function TasksBox() {
   const{tasks,searchTask, setSearchTask, taskFilter, handleTaskComplete, handleTaskRemove} = useTask()
 
@@ -56,14 +53,7 @@ export function TasksBox() {
               :
               taskFilter
               .map((eachTask, key) => (
-                  <ItemContainer key={key}>
-                    <CheckBoxAndTaskContainer>
-                      <CheckBox completed={eachTask.isComplete} onClick={() => handleTaskComplete(eachTask.id)}/>
-                      <Spacer widthX={10}/>
-                      <Task text={eachTask.label} completed={eachTask.isComplete}/>
-                    </CheckBoxAndTaskContainer>
-                    <RemoveTaskIcon onClick={() => handleTaskRemove(eachTask.id)}/>
-                  </ItemContainer>
+                  TodoItem(key, eachTask, handleTaskComplete, handleTaskRemove)
               ))
             }
           </TodoListItem>
@@ -72,3 +62,5 @@ export function TasksBox() {
     </>
   )
 }
+
+

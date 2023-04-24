@@ -12,6 +12,8 @@ interface ITaskContext {
   handleTaskRemove: (taskToRemove: string) => void,
   taskLabel: string,
   setTaskLabel: React.Dispatch<React.SetStateAction<string>>,
+  taskLabelUrgent: string,
+  setTaskLabelUrgent: React.Dispatch<React.SetStateAction<string>>,
 }
 
 const TaskContext = createContext<ITaskContext>({} as ITaskContext)
@@ -23,6 +25,7 @@ interface ITaskProviderProps {
 const TaskProvider = ({ children }: ITaskProviderProps) => {
   const[tasks, setTasks] = useState<ITaskState[]>([])
   const[taskLabel, setTaskLabel] = useState("")
+  const[taskLabelUrgent, setTaskLabelUrgent] = useState("")
   const[searchTask, setSearchTask] = useState("")
   const[taskFilter, setTaskFilter] = useState<ITaskState[]>([])
 
@@ -40,6 +43,7 @@ const TaskProvider = ({ children }: ITaskProviderProps) => {
       setTasks(updateTasks)
       saveTasksOnLocalStorage(updateTasks)
       setTaskLabel("");
+      setTaskLabelUrgent("");
     }
   }
 
@@ -98,7 +102,9 @@ const TaskProvider = ({ children }: ITaskProviderProps) => {
         handleTaskComplete,
         handleTaskRemove,
         taskLabel,
-        setTaskLabel
+        setTaskLabel,
+        taskLabelUrgent,
+        setTaskLabelUrgent,
       }}
     >
       {children}

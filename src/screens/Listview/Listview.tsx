@@ -9,6 +9,7 @@ const Listview = () => {
     <ListContainer>
       <AddTask />
       <TasksBox />
+      <AddTask urgentTask={true}/>
     </ListContainer>
   );
 };
