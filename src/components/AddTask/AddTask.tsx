@@ -35,24 +35,34 @@ export function AddTask({ urgentTask = false}: IAddTaskProps) {
       <InputContainer urgentTask={urgentTask}>
         {
           urgentTask ? 
+          <>
           <Input 
             placeholder="Inserir tarefa urgente"
             value={taskLabelUrgent}
             onChange={handleTaskLabelChangeUrgent}
             onKeyPress={handleNewTaskKeyPressUrgent}
           />
+
+          <AddButton urgentTask={urgentTask} onClick={() => handleAddTask(taskLabelUrgent)}>
+            <PlusCircle color="white" size={32} />
+          </AddButton>
+          </>
           :
+          <>
           <Input 
             placeholder="Inserir tarefa"
             value={taskLabel}
             onChange={handleTaskLabelChange}
             onKeyPress={handleNewTaskKeyPress}
           />
+
+          <AddButton urgentTask={urgentTask} onClick={() => handleAddTask(taskLabel)}>
+            <PlusCircle color="white" size={32} />
+          </AddButton>
+          </>
         }
 
-        <AddButton urgentTask={urgentTask} onClick={() => handleAddTask(taskLabel)}>
-          <PlusCircle color="white" size={32} />
-        </AddButton>
+
       </InputContainer>
     </>
   )
