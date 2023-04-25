@@ -1,9 +1,12 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Header } from "./components/Header/Header";
 import Listview from "./screens/Listview/Listview";
 import { AppLayoutContainer, GlobalStyle, LoadingContainer } from "./styles";
 import ReactLoading from 'react-loading';
 import { TaskProvider } from "context/task.context";
+import { Register } from "screens/Register/Register";
+import { IUser } from "screens/Register/Register.type";
 
 const App = () => {
   const[isLoading, setIsLoading] = useState(false)
@@ -29,7 +32,14 @@ const App = () => {
           <>
             <Header />
             <AppLayoutContainer>
-              <Listview />
+              <Router>
+                <Routes>
+                  <Route path="/" element={<Register onSubmit={function handleOnSubmit(data: IUser): void {}} />} />
+                  <Route path="/listview" element={<Listview />} />
+                </Routes>
+              </Router>
+
+              {/* <Listview /> */}
             </AppLayoutContainer>
           </>
         }

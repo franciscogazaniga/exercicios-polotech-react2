@@ -1,3 +1,3 @@
 # To-Do List App
 
-1. Aplicar useCallback.
+1. Aplicar React Router e formulários.
