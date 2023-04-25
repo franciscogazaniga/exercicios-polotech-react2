@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { ButtonRegister, InputRegister, LabelRegister, RegisterContainer, RegisterForm, Title } from "./Register.style";
 import { IRegister, IUser } from "./Register.type";
 
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+
 export function Register({ onSubmit }: IRegister) {
   const[formData, setFormData] = useState<IUser>({
     name: '',
@@ -45,19 +48,26 @@ export function Register({ onSubmit }: IRegister) {
     const nameError = validateName(formData.name)
     const emailError = validateEmail(formData.email)
     const ageError = validateAge(formData.age)
+    const toastPosition = toast.POSITION.TOP_RIGHT
+
+    function toastError(error: string) {
+      toast.error(error, {
+        position: toastPosition
+      })
+    }
 
     if(nameError) {
-      console.log(nameError)
+      toastError(nameError)
       return
     }
 
     if(emailError) {
-      console.log(emailError)
+      toastError(emailError)
       return
     }
 
     if(ageError) {
-      console.log(ageError)
+      toastError(ageError)
       return
     }
 
@@ -80,6 +90,7 @@ export function Register({ onSubmit }: IRegister) {
         <InputRegister type="text" name="age" value={formData.age} onChange={handleOnChange}></InputRegister>
 
         <ButtonRegister type="submit">Entrar</ButtonRegister>
+        <ToastContainer />
       </RegisterForm>
     </RegisterContainer>
   )
