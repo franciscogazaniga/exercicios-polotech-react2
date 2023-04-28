@@ -18,7 +18,7 @@ export const Title = styled.div`
 
 export const RegisterForm = styled.form`
   width: 400px;
-  height: 400px;
+  //height: 400px;
   padding: 15px;
   background-color: rgba(255,255,255,0.35);
   border-radius: 8px;
@@ -50,7 +50,7 @@ export const ButtonRegister = styled.button`
   width: 100%;
   border: none;
   border-radius: 8px;
-  margin-top: 20px;
+  margin: 20px 0 0 0;
   height: 48px;
   font-size: 24px;
   background-color: #2D59B7;
