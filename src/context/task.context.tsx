@@ -7,7 +7,7 @@ interface ITaskContext {
   searchTask: string,
   setSearchTask: React.Dispatch<React.SetStateAction<string>>,
   taskFilter: ITaskState[], 
-  handleAddTask: (label: string) => void,
+  handleAddTask: (label: string, urgent: boolean) => void,
   handleTaskComplete: (taskToCompleteId: string) => void,
   handleTaskRemove: (taskToRemove: string) => void,
   taskLabel: string,
@@ -29,9 +29,9 @@ const TaskProvider = ({ children }: ITaskProviderProps) => {
   const[searchTask, setSearchTask] = useState("")
   const[taskFilter, setTaskFilter] = useState<ITaskState[]>([])
 
-  const handleAddTask = (label: string) => {
+  const handleAddTask = (label: string, urgent: boolean) => {
     const id = nanoid()
-    const currentTask: ITaskState = {id, label, isComplete:false}
+    const currentTask: ITaskState = {id, label, isComplete:false, urgent: urgent}
 
     const tasksFiltred = tasks.filter((eachTask) => eachTask.label.toLowerCase() === currentTask.label.toLowerCase())
 
@@ -42,8 +42,11 @@ const TaskProvider = ({ children }: ITaskProviderProps) => {
 
       setTasks(updateTasks)
       saveTasksOnLocalStorage(updateTasks)
-      setTaskLabel("");
-      setTaskLabelUrgent("");
+      if(urgent) {
+        setTaskLabelUrgent("");
+      } else {
+        setTaskLabel("");
+      }
     }
   }
 

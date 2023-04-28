@@ -8,7 +8,7 @@ import { ITaskState } from "screens/Listview/Listview.types";
 export function TodoItem(key: number, eachTask: ITaskState, handleTaskComplete: (taskToCompleteId: string) => void, handleTaskRemove: (taskToRemove: string) => void): JSX.Element {
   return <ItemContainer key={key}>
     <CheckBoxAndTaskContainer>
-      <CheckBox completed={eachTask.isComplete} onClick={() => handleTaskComplete(eachTask.id)} />
+      <CheckBox completed={eachTask.isComplete} urgent={eachTask.urgent} onClick={() => handleTaskComplete(eachTask.id)} />
       <Spacer widthX={10} />
       <Task text={eachTask.label} completed={eachTask.isComplete} />
     </CheckBoxAndTaskContainer>

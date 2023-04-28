@@ -5,7 +5,7 @@ import { ButtonChangeTheme, HeaderContainer, LogoImage } from "./Header.styles";
 
 export function Header() {
   const divRef = useRef<HTMLDivElement | null>(null)
-  const colors = useRef(["#666", "#444"])
+  const colors = useRef(["#444", "grey"])
   const currentIndex = useRef(0)
 
   function handleChangeTheme() {

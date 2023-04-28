@@ -19,13 +19,13 @@ export function AddTask({ urgentTask = false}: IAddTaskProps) {
 
   const handleNewTaskKeyPress = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
     if(event.key === "Enter" && taskLabel !== "") {
-      handleAddTask(taskLabel);
+      handleAddTask(taskLabel, false);
     }
   }, [taskLabel, handleAddTask])
 
   const handleNewTaskKeyPressUrgent = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
     if(event.key === "Enter" && taskLabelUrgent !== "") {
-      handleAddTask(taskLabelUrgent);
+      handleAddTask(taskLabelUrgent, true);
     }
   }, [handleAddTask, taskLabelUrgent])
 
@@ -43,7 +43,7 @@ export function AddTask({ urgentTask = false}: IAddTaskProps) {
             onKeyPress={handleNewTaskKeyPressUrgent}
           />
 
-          <AddButton urgentTask={urgentTask} onClick={() => handleAddTask(taskLabelUrgent)}>
+          <AddButton urgentTask={urgentTask} onClick={() => handleAddTask(taskLabelUrgent, true)}>
             <PlusCircle color="white" size={32} />
           </AddButton>
           </>
@@ -56,7 +56,7 @@ export function AddTask({ urgentTask = false}: IAddTaskProps) {
             onKeyPress={handleNewTaskKeyPress}
           />
 
-          <AddButton urgentTask={urgentTask} onClick={() => handleAddTask(taskLabel)}>
+          <AddButton urgentTask={urgentTask} onClick={() => handleAddTask(taskLabel, false)}>
             <PlusCircle color="white" size={32} />
           </AddButton>
           </>
