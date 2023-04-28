@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Header } from "./components/Header/Header";
-import Listview from "./screens/Listview/Listview";
 import { AppLayoutContainer, GlobalStyle, LoadingContainer } from "./styles";
 import ReactLoading from 'react-loading';
 import { TaskProvider } from "context/task.context";
-import { Register } from "screens/Register/Register";
 import { IUser } from "screens/Register/Register.type";
+
+import { lazy } from "react"; 
+const ListView = lazy(() => import('./screens/Listview/Listview'))
+const Register = lazy(() => import('./screens/Register/Register'))
 
 const App = () => {
   const[isLoading, setIsLoading] = useState(false)
@@ -32,13 +34,14 @@ const App = () => {
           <>
             <Header />
             <AppLayoutContainer>
-              <Router>
-                <Routes>
-                  <Route path="/" element={<Register onSubmit={function handleOnSubmit(data: IUser): void {}} />} />
-                  <Route path="/listview" element={<Listview />} />
-                </Routes>
-              </Router>
-
+              <Suspense fallback={<LoadingContainer />}>
+                <Router>
+                  <Routes>
+                    <Route path="/" element={<Register onSubmit={function handleOnSubmit(data: IUser): void {}} />} />
+                    <Route path="/listview" element={<ListView />} />
+                  </Routes>
+                </Router>
+              </Suspense>
               {/* <Listview /> */}
             </AppLayoutContainer>
           </>

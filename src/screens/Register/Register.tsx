@@ -6,7 +6,7 @@ import { IRegister, IUser } from "./Register.type";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 
-export function Register({ onSubmit }: IRegister) {
+const Register = ({ onSubmit }: IRegister) => {
   const[formData, setFormData] = useState<IUser>({
     name: '',
     email: '',
@@ -95,3 +95,5 @@ export function Register({ onSubmit }: IRegister) {
     </RegisterContainer>
   )
 }
+
+export default Register
