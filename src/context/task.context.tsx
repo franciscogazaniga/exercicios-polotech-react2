@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { createContext, useContext, useEffect, useState } from "react";
 import { ITaskState } from "screens/Listview/Listview.types";
+import swal from 'sweetalert'
 
 interface ITaskContext {
   tasks: ITaskState[],
@@ -36,7 +37,14 @@ const TaskProvider = ({ children }: ITaskProviderProps) => {
     const tasksFiltred = tasks.filter((eachTask) => eachTask.label.toLowerCase() === currentTask.label.toLowerCase())
 
     if(tasksFiltred.length > 0) {
-      console.log("Essa task já existe")
+      swal("Essa task já existe!", {
+        icon: "warning",
+        buttons: {
+          confirm : {text:'Ok',className:'sweet-warning'},
+        }
+      });
+    } else if (currentTask.label.trim().length === 0) {
+      return
     } else {
       const updateTasks = [...tasks, currentTask]
 
@@ -67,8 +75,22 @@ const TaskProvider = ({ children }: ITaskProviderProps) => {
     const tempTasks = [...tasks];
     const newTasks = tempTasks.filter((eachTask) => !eachTask.id.includes(taskToRemove))
 
-    setTasks(newTasks);
-    saveTasksOnLocalStorage(newTasks)
+    swal("Você tem certeza que deseja deletar esta tarefa?", {
+      buttons: ["Não", "Sim"],
+      icon: "warning",
+    })
+    .then((willDelete) => {
+      if(willDelete) {
+        setTasks(newTasks);
+        saveTasksOnLocalStorage(newTasks)
+
+        swal("Tarefa removida com sucesso.", {
+          icon: "success",
+        });
+      } else {
+        return
+      }
+    });
   }
 
   function saveTasksOnLocalStorage(updateTasks: ITaskState[]) {
